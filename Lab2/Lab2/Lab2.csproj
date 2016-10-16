@@ -196,15 +196,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="DAL\Contexts\GroupContext.cs" />
     <Compile Include="DAL\Contexts\IdentityContext.cs" />
     <Compile Include="DAL\Contexts\MessageContext.cs" />
     <Compile Include="DAL\Migrations\GroupMigrations\Configuration.cs" />
-    <Compile Include="DAL\Migrations\IdentityMigrations\201610161652415_InitalCreate.cs" />
-    <Compile Include="DAL\Migrations\IdentityMigrations\201610161652415_InitalCreate.Designer.cs">
-      <DependentUpon>201610161652415_InitalCreate.cs</DependentUpon>
+    <Compile Include="DAL\Migrations\IdentityMigrations\201610161843425_InitialCreate.cs" />
+    <Compile Include="DAL\Migrations\IdentityMigrations\201610161843425_InitialCreate.Designer.cs">
+      <DependentUpon>201610161843425_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="DAL\Migrations\IdentityMigrations\Configuration.cs" />
     <Compile Include="DAL\Migrations\MessageMigrations\Configuration.cs" />
@@ -279,6 +281,16 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Message\Create.cshtml" />
+    <Content Include="Views\Message\Delete.cshtml" />
+    <Content Include="Views\Message\Details.cshtml" />
+    <Content Include="Views\Message\Edit.cshtml" />
+    <Content Include="Views\Message\Index.cshtml" />
+    <Content Include="Views\Group\Create.cshtml" />
+    <Content Include="Views\Group\Delete.cshtml" />
+    <Content Include="Views\Group\Details.cshtml" />
+    <Content Include="Views\Group\Edit.cshtml" />
+    <Content Include="Views\Group\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -292,8 +304,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DAL\Migrations\IdentityMigrations\201610161652415_InitalCreate.resx">
-      <DependentUpon>201610161652415_InitalCreate.cs</DependentUpon>
+    <EmbeddedResource Include="DAL\Migrations\IdentityMigrations\201610161843425_InitialCreate.resx">
+      <DependentUpon>201610161843425_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

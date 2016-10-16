@@ -11,9 +11,9 @@ namespace Lab2.DAL.Contexts
 {
     public class MessageContext : IdentityDbContext<ApplicationUser>
     {
-        public MessageContext()
-                : base("DefaultConnection")
-            {
+        public MessageContext() : base("DefaultConnection")
+        {
+            Database.SetInitializer<MessageContext>(new CreateDatabaseIfNotExists<MessageContext>());
         }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Group> Groups { get; set; }

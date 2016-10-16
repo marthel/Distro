@@ -3,7 +3,7 @@ namespace Lab2.DAL.Migrations.IdentityMigrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitalCreate : DbMigration
+    public partial class InitialCreate : DbMigration
     {
         public override void Up()
         {
@@ -11,7 +11,7 @@ namespace Lab2.DAL.Migrations.IdentityMigrations
                 "dbo.Groups",
                 c => new
                     {
-                        Id = c.String(nullable: false, maxLength: 128),
+                        Id = c.Guid(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 255),
                     })
                 .PrimaryKey(t => t.Id);
@@ -20,13 +20,14 @@ namespace Lab2.DAL.Migrations.IdentityMigrations
                 "dbo.Messages",
                 c => new
                     {
-                        Id = c.String(nullable: false, maxLength: 128),
+                        Id = c.Guid(nullable: false, identity: true),
                         Text = c.String(nullable: false, maxLength: 255),
                         SenderId = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.SenderId)
                 .Index(t => t.SenderId);
+            
             CreateTable(
                 "dbo.AspNetUsers",
                 c => new
@@ -99,8 +100,8 @@ namespace Lab2.DAL.Migrations.IdentityMigrations
                 "dbo.MessageGroups",
                 c => new
                     {
-                        Message_Id = c.String(nullable: false, maxLength: 128),
-                        Group_Id = c.String(nullable: false, maxLength: 128),
+                        Message_Id = c.Guid(nullable: false),
+                        Group_Id = c.Guid(nullable: false),
                     })
                 .PrimaryKey(t => new { t.Message_Id, t.Group_Id })
                 .ForeignKey("dbo.Messages", t => t.Message_Id, cascadeDelete: true)
@@ -113,7 +114,7 @@ namespace Lab2.DAL.Migrations.IdentityMigrations
                 c => new
                     {
                         ApplicationUser_Id = c.String(nullable: false, maxLength: 128),
-                        Group_Id = c.String(nullable: false, maxLength: 128),
+                        Group_Id = c.Guid(nullable: false),
                     })
                 .PrimaryKey(t => new { t.ApplicationUser_Id, t.Group_Id })
                 .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id, cascadeDelete: true)
@@ -126,7 +127,7 @@ namespace Lab2.DAL.Migrations.IdentityMigrations
                 c => new
                     {
                         ApplicationUser_Id = c.String(nullable: false, maxLength: 128),
-                        Message_Id = c.String(nullable: false, maxLength: 128),
+                        Message_Id = c.Guid(nullable: false),
                     })
                 .PrimaryKey(t => new { t.ApplicationUser_Id, t.Message_Id })
                 .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id, cascadeDelete: true)
@@ -139,6 +140,7 @@ namespace Lab2.DAL.Migrations.IdentityMigrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.Messages", "SenderId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.ApplicationUserMessages", "Message_Id", "dbo.Messages");
             DropForeignKey("dbo.ApplicationUserMessages", "ApplicationUser_Id", "dbo.AspNetUsers");
@@ -160,6 +162,7 @@ namespace Lab2.DAL.Migrations.IdentityMigrations
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropIndex("dbo.Messages", new[] { "SenderId" });
             DropTable("dbo.ApplicationUserMessages");
             DropTable("dbo.ApplicationUserGroups");
             DropTable("dbo.MessageGroups");

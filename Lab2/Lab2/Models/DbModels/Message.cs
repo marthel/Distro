@@ -11,14 +11,14 @@ namespace Lab2.Models.DbModels
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [StringLength(255)]
         public string Text { get; set; }
-        //[ForeignKey("Sender")]
+        [ForeignKey("Sender")]
         public virtual string SenderId { get; set; }
-        //public virtual ApplicationUser Sender { get; set; }
+        public virtual ApplicationUser Sender { get; set; }
         public virtual ICollection<Group> GroupReceivers { get; set; }
         public virtual ICollection<ApplicationUser> UserReceivers { get; set; }
     }

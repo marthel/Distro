@@ -11,9 +11,9 @@ namespace Lab2.DAL.Contexts
 {
         public class IdentityContext : IdentityDbContext<ApplicationUser>
         {
-            public IdentityContext()
-                : base("DefaultConnection", throwIfV1Schema: false)
+            public IdentityContext() : base("DefaultConnection", throwIfV1Schema: false)
             {
+                Database.SetInitializer<IdentityContext>(new CreateDatabaseIfNotExists<IdentityContext>());
             }
             public static IdentityContext Create()
             {
@@ -24,6 +24,16 @@ namespace Lab2.DAL.Contexts
         //public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ApplicationUser>()
+               .HasMany(u => u.Messages)
+               .WithMany(u => u.UserReceivers)
+               .Map(m =>
+               {
+                   m.ToTable("ApplicationUserMessages");
+                   m.MapLeftKey("ApplicationUser_Id");
+                   m.MapRightKey("Message_Id");
+
+               });
             base.OnModelCreating(modelBuilder);
         }
     }

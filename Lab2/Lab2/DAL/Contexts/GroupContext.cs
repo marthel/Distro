@@ -13,6 +13,7 @@ namespace Lab2.DAL.Contexts
     {
         public GroupContext(): base("DefaultConnection")
         {
+            Database.SetInitializer<GroupContext>(new CreateDatabaseIfNotExists<GroupContext>());
         }
         public DbSet<Group> Groups { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
