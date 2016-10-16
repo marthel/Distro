@@ -17,6 +17,7 @@ namespace Lab2.Models.DbModels
         [StringLength(255)]
         public string Text { get; set; }
         [ForeignKey("Sender")]
+        [ScaffoldColumn(false)]
         public virtual string SenderId { get; set; }
         public virtual ApplicationUser Sender { get; set; }
         public virtual ICollection<Group> GroupReceivers { get; set; }

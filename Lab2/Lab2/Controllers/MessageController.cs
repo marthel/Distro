@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Lab2.DAL.Contexts;
 using Lab2.Models.DbModels;
+using Microsoft.AspNet.Identity;
 
 namespace Lab2.Controllers
 {
@@ -51,6 +52,7 @@ namespace Lab2.Controllers
         {
             if (ModelState.IsValid)
             {
+                message.SenderId = User.Identity.GetUserId();
                 db.Messages.Add(message);
                 db.SaveChanges();
                 return RedirectToAction("Index");
