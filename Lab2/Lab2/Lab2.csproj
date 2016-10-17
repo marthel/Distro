@@ -204,9 +204,9 @@
     <Compile Include="DAL\Contexts\IdentityContext.cs" />
     <Compile Include="DAL\Contexts\MessageContext.cs" />
     <Compile Include="DAL\Migrations\GroupMigrations\Configuration.cs" />
-    <Compile Include="DAL\Migrations\IdentityMigrations\201610161843425_InitialCreate.cs" />
-    <Compile Include="DAL\Migrations\IdentityMigrations\201610161843425_InitialCreate.Designer.cs">
-      <DependentUpon>201610161843425_InitialCreate.cs</DependentUpon>
+    <Compile Include="DAL\Migrations\IdentityMigrations\201610171001013_InitialCreate.cs" />
+    <Compile Include="DAL\Migrations\IdentityMigrations\201610171001013_InitialCreate.Designer.cs">
+      <DependentUpon>201610171001013_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="DAL\Migrations\IdentityMigrations\Configuration.cs" />
     <Compile Include="DAL\Migrations\MessageMigrations\Configuration.cs" />
@@ -304,8 +304,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DAL\Migrations\IdentityMigrations\201610161843425_InitialCreate.resx">
-      <DependentUpon>201610161843425_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="DAL\Migrations\IdentityMigrations\201610171001013_InitialCreate.resx">
+      <DependentUpon>201610171001013_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Lab2.Controllers
 {
+    [Authorize]
     public class MessageController : Controller
     {
         private IdentityContext db = new IdentityContext();
@@ -36,7 +37,6 @@ namespace Lab2.Controllers
             }
             return View(message);
         }
-
         // GET: Message/Create
         public ActionResult Create()
         {
