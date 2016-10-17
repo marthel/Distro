@@ -202,6 +202,10 @@
     <Compile Include="DAL\Contexts\IdentityContext.cs" />
     <Compile Include="DAL\Contexts\MessageContext.cs" />
     <Compile Include="DAL\Migrations\GroupMigrations\Configuration.cs" />
+    <Compile Include="DAL\Migrations\IdentityMigrations\201610171428536_InitialCreate.cs" />
+    <Compile Include="DAL\Migrations\IdentityMigrations\201610171428536_InitialCreate.Designer.cs">
+      <DependentUpon>201610171428536_InitialCreate.cs</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Migrations\IdentityMigrations\Configuration.cs" />
     <Compile Include="DAL\Migrations\MessageMigrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
@@ -286,6 +290,11 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAL\Migrations\IdentityMigrations\201610171428536_InitialCreate.resx">
+      <DependentUpon>201610171428536_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
