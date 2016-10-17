@@ -7,11 +7,21 @@ using System.Web.Mvc;
 
 namespace Lab2.Models.ViewModels
 {
+    //details about a single message
+    public class MessageViewModel
+    {
+        public string Subject { get; set; }
+        public string Sender { get; set; }
+        public string Body { get; set; }
+    }
+    //Create and send message to user(s) and/or group(s)
     public class SendMessageViewModel
     {
+        [Display(Name = "Subject")]
+        public string Subject { get; set; }
         [Required]
-        [Display(Name = "Text")]
-        public string Text { get; set; }
+        [Display(Name = "Body")]
+        public string Body { get; set; }
 
         [HiddenInput(DisplayValue = false)]
         public string SenderId { get; set; }
@@ -23,21 +33,17 @@ namespace Lab2.Models.ViewModels
         public List<string> GroupReceivers { get; set; }
     }
 
+    //List of messages in inbox
     public class InboxMessageViewModel
     {
-        [Display(Name = "Text")]
         public string Text { get; set; }
-
-        [Display(Name = "Sender")]
         public string Sender { get; set; }
+
     }
+    //list of messages in sent
     public class SentMessageViewModel
     {
-        [Required]
-        [Display(Name = "Text")]
-        public string Text { get; set; }
-
-        [Display(Name = "Receiver(s)")]
+        public string Subject { get; set; }
         public List<string> Receivers { get; set; }
 
     }

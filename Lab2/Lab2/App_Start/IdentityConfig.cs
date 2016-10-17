@@ -12,6 +12,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Lab2.Models;
 using Lab2.DAL.Contexts;
+using Lab2.Models.DbModels;
 
 namespace Lab2
 {

@@ -7,6 +7,7 @@ using Microsoft.Owin.Security.Google;
 using Owin;
 using Lab2.Models;
 using Lab2.DAL.Contexts;
+using Lab2.Models.DbModels;
 
 namespace Lab2
 {

@@ -25,14 +25,13 @@ namespace Lab2.DAL.Contexts
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ApplicationUser>()
-               .HasMany(u => u.Messages)
+                .HasMany(u => u.Messages)
                .WithMany(u => u.UserReceivers)
                .Map(m =>
                {
                    m.ToTable("ApplicationUserMessages");
                    m.MapLeftKey("ApplicationUser_Id");
                    m.MapRightKey("Message_Id");
-
                });
             base.OnModelCreating(modelBuilder);
         }

@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Lab2.Models;
+using Lab2.Models.ViewModels;
+using Lab2.Models.DbModels;
 
 namespace Lab2.Controllers
 {

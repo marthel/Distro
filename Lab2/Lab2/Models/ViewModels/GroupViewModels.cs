@@ -7,17 +7,22 @@ using System.Web.Mvc;
 
 namespace Lab2.Models.ViewModels
 {
+    //list of groups 
+    public class GroupViewModel
+    {
+        public string Name { get; set; }
+        public Guid GroupId { get; set; }
+    }
+    //user with the id joins group with id
     public class JoinGroupViewModel
     {
-        [Display(Name = "Name")]
-        public string Name { get; set; }
-
         [HiddenInput(DisplayValue = false)]
         public Guid GroupId { get; set; }
 
         [HiddenInput(DisplayValue = false)]
         public Guid UserId { get; set; }
     }
+    //create a new group
     public class CreateGroupViewModel
     {
         [Required]
@@ -27,13 +32,20 @@ namespace Lab2.Models.ViewModels
         [HiddenInput(DisplayValue = false)]
         public string Creater { get; set; }
     }
+    //edit existing group
     public class EditGroupViewModel
     {
         [HiddenInput(DisplayValue = false)]
         public Guid GroupId { get; set; }
-
+        public string CurrentName { get; set; }
         [Required]
         [Display(Name = "New Name")]
         public string NewName { get; set; }
+    }
+    //group and members
+    public class GroupMemberViewModel
+    {
+        public string Name { get; set; }
+        public List<string> Members { get; set; }
     }
 }

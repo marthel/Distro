@@ -15,10 +15,21 @@ namespace Lab2.Models.DbModels
 
         [Required]
         [StringLength(255)]
-        public string Text { get; set; }
+        public string Subject { get; set; }
+        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime SendTime { get; set; }
+
+        [Required]
+        [StringLength(255)]
+        public string Body { get; set; }
+
+        public string ReadBy { get; set; }
+
         [ForeignKey("Sender")]
         public virtual string SenderId { get; set; }
         public virtual ApplicationUser Sender { get; set; }
+
         public virtual ICollection<Group> GroupReceivers { get; set; }
         public virtual ICollection<ApplicationUser> UserReceivers { get; set; }
     }
