@@ -3,5 +3,13 @@
 }
 
 <div class="jumbotron">
-    <p class="lead">Hej.</p>
+    @if (Request.IsAuthenticated)
+    {
+        <p class="lead">Hello, use the menu bar to navigate the site</p>
+    }
+    else
+    {
+        <p class="lead">Login to use the site.</p>
+    }
+    
 </div>
