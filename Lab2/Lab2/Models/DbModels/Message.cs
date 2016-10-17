@@ -23,8 +23,10 @@ namespace Lab2.Models.DbModels
         [Required]
         [StringLength(255)]
         public string Body { get; set; }
-
-        public string ReadBy { get; set; }
+        
+        //ToDo fixa läst/oläst skit
+        public int NumOfReads { get; set; }
+        public bool Read { get; set; }
 
         [ForeignKey("Sender")]
         public virtual string SenderId { get; set; }
