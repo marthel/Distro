@@ -11,7 +11,11 @@ namespace Lab2.Models.ViewModels
     {
         [Display(Name = "Name")]
         public string Name { get; set; }
+
+        [HiddenInput(DisplayValue = false)]
         public Guid GroupId { get; set; }
+
+        [HiddenInput(DisplayValue = false)]
         public Guid UserId { get; set; }
     }
     public class CreateGroupViewModel
@@ -27,6 +31,7 @@ namespace Lab2.Models.ViewModels
     {
         [HiddenInput(DisplayValue = false)]
         public Guid GroupId { get; set; }
+
         [Required]
         [Display(Name = "New Name")]
         public string NewName { get; set; }
