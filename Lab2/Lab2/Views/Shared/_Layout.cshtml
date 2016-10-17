@@ -23,11 +23,13 @@
             <div class="navbar-collapse collapse">
                 @if (Request.IsAuthenticated)
                 {
-                    <ul class="nav navbar-nav">      
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Send message", "Index", "Home")</li>      
                         <li>@Html.ActionLink("Inbox", "Index", "Home")</li>
                         <li>@Html.ActionLink("Sent", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Create group", "Index", "Home")</li>
                         <li>@Html.ActionLink("Your groups", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Join group", "Index", "Home")</li>
+                        <li>@Html.ActionLink("All groups", "Index", "Home")</li>
                     </ul>
                 }
                     @Html.Partial("_LoginPartial")
