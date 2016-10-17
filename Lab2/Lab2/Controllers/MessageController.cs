@@ -62,7 +62,7 @@ namespace Lab2.Controllers
         }
 
         // GET: Message/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(Guid id)
         {
             if (id == null)
             {
