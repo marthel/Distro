@@ -11,7 +11,7 @@ namespace Lab2.Models.DbModels
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         [Required]
         [StringLength(255)]
         public string Name { get; set; }

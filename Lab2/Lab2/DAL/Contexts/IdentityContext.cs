@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using System.Collections;
 
 namespace Lab2.DAL.Contexts
 {
@@ -20,20 +21,11 @@ namespace Lab2.DAL.Contexts
                 return new IdentityContext();
             }
         public DbSet<Group> Groups { get; set; }
-        //public DbSet<Message> Messages { get; set; }
-        //public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public DbSet<UserMessage> UserMessages { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<ApplicationUserMessage> ApplicationUserMessages { get; set; }
+        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            /*modelBuilder.Entity<ApplicationUser>()
-               .HasMany(u => u.Messages)
-               .WithMany(u => u.UserReceivers)
-               .Map(m =>
-               {
-                   m.ToTable("ApplicationUserMessages");
-                   m.MapLeftKey("ApplicationUser_Id");
-                   m.MapRightKey("Message_Id");
-               });*/
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -15,10 +15,12 @@ namespace Lab2.DAL.Contexts
         {
             Database.SetInitializer<MessageContext>(new CreateDatabaseIfNotExists<MessageContext>());
         }
+
+
         public DbSet<Message> Messages { get; set; }
         public DbSet<Group> Groups { get; set; }
         //public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public DbSet<UserMessage> UserMessages { get; set; }
+        public DbSet<ApplicationUserMessage> UserMessages { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

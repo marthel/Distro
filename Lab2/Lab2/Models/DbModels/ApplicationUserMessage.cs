@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Lab2.Models.DbModels
 {
-    public class UserMessage
+    public class ApplicationUserMessage
     {
         // Set the column order so it appears nice in the database
 
@@ -16,16 +16,16 @@ namespace Lab2.Models.DbModels
         
        // [Required]
         [Key, Column(Order = 0)]
-        public string UserID { get; set; }
+        public string User_Id { get; set; }
 
-        [ForeignKey("UserID")]
+        [ForeignKey("User_Id")]
         public virtual ApplicationUser User { get; set; }
 
 
         [Key, Column(Order = 1)]
-        public Guid MessageID { get; set; }
+        public int Message_Id { get; set; }
 
-        [ForeignKey("MessageID")]
+        [ForeignKey("Message_Id")]
         public virtual Message Message { get; set; }
 
         // Add any additional fields you need
