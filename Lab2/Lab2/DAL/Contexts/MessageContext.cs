@@ -17,7 +17,8 @@ namespace Lab2.DAL.Contexts
         }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Group> Groups { get; set; }
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        //public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<UserMessage> UserMessages { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

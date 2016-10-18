@@ -16,7 +16,7 @@ namespace Lab2.DAL.Contexts
             Database.SetInitializer<GroupContext>(new CreateDatabaseIfNotExists<GroupContext>());
         }
         public DbSet<Group> Groups { get; set; }
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        //public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Message> Messages { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

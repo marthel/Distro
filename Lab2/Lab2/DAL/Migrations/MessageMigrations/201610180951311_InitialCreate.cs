@@ -1,4 +1,4 @@
-namespace Lab2.DAL.Migrations.IdentityMigrations
+namespace Lab2.DAL.Migrations.MessageMigrations
 {
     using System;
     using System.Data.Entity.Migrations;
@@ -24,8 +24,6 @@ namespace Lab2.DAL.Migrations.IdentityMigrations
                         Subject = c.String(nullable: false, maxLength: 255),
                         SendTime = c.DateTime(nullable: false),
                         Body = c.String(nullable: false, maxLength: 255),
-                        NumOfReads = c.Int(nullable: false),
-                        Read = c.Boolean(nullable: false),
                         SenderId = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
@@ -91,6 +89,20 @@ namespace Lab2.DAL.Migrations.IdentityMigrations
                 .Index(t => t.RoleId);
             
             CreateTable(
+                "dbo.UserMessages",
+                c => new
+                    {
+                        UserID = c.String(nullable: false, maxLength: 128),
+                        MessageID = c.Guid(nullable: false),
+                        Read = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.UserID, t.MessageID })
+                .ForeignKey("dbo.Messages", t => t.MessageID, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserID, cascadeDelete: true)
+                .Index(t => t.UserID)
+                .Index(t => t.MessageID);
+            
+            CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -126,51 +138,38 @@ namespace Lab2.DAL.Migrations.IdentityMigrations
                 .Index(t => t.ApplicationUser_Id)
                 .Index(t => t.Group_Id);
             
-            CreateTable(
-                "dbo.ApplicationUserMessages",
-                c => new
-                    {
-                        ApplicationUser_Id = c.String(nullable: false, maxLength: 128),
-                        Message_Id = c.Guid(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.ApplicationUser_Id, t.Message_Id })
-                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id, cascadeDelete: true)
-                .ForeignKey("dbo.Messages", t => t.Message_Id, cascadeDelete: true)
-                .Index(t => t.ApplicationUser_Id)
-                .Index(t => t.Message_Id);
-            
         }
         
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.Messages", "SenderId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.UserMessages", "UserID", "dbo.AspNetUsers");
+            DropForeignKey("dbo.UserMessages", "MessageID", "dbo.Messages");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.ApplicationUserMessages", "Message_Id", "dbo.Messages");
-            DropForeignKey("dbo.ApplicationUserMessages", "ApplicationUser_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.ApplicationUserGroups", "Group_Id", "dbo.Groups");
             DropForeignKey("dbo.ApplicationUserGroups", "ApplicationUser_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.MessageGroups", "Group_Id", "dbo.Groups");
             DropForeignKey("dbo.MessageGroups", "Message_Id", "dbo.Messages");
-            DropIndex("dbo.ApplicationUserMessages", new[] { "Message_Id" });
-            DropIndex("dbo.ApplicationUserMessages", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.ApplicationUserGroups", new[] { "Group_Id" });
             DropIndex("dbo.ApplicationUserGroups", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.MessageGroups", new[] { "Group_Id" });
             DropIndex("dbo.MessageGroups", new[] { "Message_Id" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.UserMessages", new[] { "MessageID" });
+            DropIndex("dbo.UserMessages", new[] { "UserID" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Messages", new[] { "SenderId" });
-            DropTable("dbo.ApplicationUserMessages");
             DropTable("dbo.ApplicationUserGroups");
             DropTable("dbo.MessageGroups");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.UserMessages");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");

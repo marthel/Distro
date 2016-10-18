@@ -19,7 +19,7 @@ namespace Lab2.Models.DbModels
             // Add custom user claims here
             return userIdentity;
         }
-        public ICollection<Message> Messages { get; set; }
+        public virtual ICollection<UserMessage> UserMessage { get; set; }
         public ICollection<Group> Groups { get; set; }
     }
 }

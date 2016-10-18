@@ -23,16 +23,23 @@ namespace Lab2.Models.DbModels
         [Required]
         [StringLength(255)]
         public string Body { get; set; }
-        
+
         //ToDo fixa läst/oläst skit
-        public int NumOfReads { get; set; }
-        public bool Read { get; set; }
+      /*  private int count;
+        public int NumOfReads {
+            get { return count; }
+            set { count++;}
+        }*/
+
+        //public List<string> read { get; set; }
+        //public bool Read { get; set; }
 
         [ForeignKey("Sender")]
         public virtual string SenderId { get; set; }
         public virtual ApplicationUser Sender { get; set; }
 
         public virtual ICollection<Group> GroupReceivers { get; set; }
-        public virtual ICollection<ApplicationUser> UserReceivers { get; set; }
+        public virtual ICollection<UserMessage> UserMessage { get; set; }
+        //public virtual ICollection<ApplicationUser> UserReceivers { get; set; }
     }
 }
