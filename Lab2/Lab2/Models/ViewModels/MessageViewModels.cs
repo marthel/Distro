@@ -23,14 +23,11 @@ namespace Lab2.Models.ViewModels
         [Display(Name = "Body")]
         public string Body { get; set; }
 
-        [HiddenInput(DisplayValue = false)]
-        public string SenderId { get; set; }
-
         [Display(Name = "User receiver(s)")]
-        public List<string> UserReceivers { get; set; }
+        public string UserReceivers { get; set; }
 
         [Display(Name = "Group receiver(s)")]
-        public List<string> GroupReceivers { get; set; }
+        public string GroupReceivers { get; set; }
     }
 
     //List of messages in inbox

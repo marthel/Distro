@@ -1,137 +1,92 @@
-﻿using System;
+﻿using Lab2.DAL.Contexts;
+using Lab2.Models.DbModels;
+using Lab2.Models.ViewModels;
+using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Lab2.DAL.Contexts;
-using Lab2.Models.DbModels;
-using Microsoft.AspNet.Identity;
-using System.Diagnostics;
 
 namespace Lab2.Controllers
 {
     public class MessageController : Controller
     {
-        private MessageContext db = new MessageContext();
 
+        private IdentityContext Db = new IdentityContext();
         // GET: Message
-        public ActionResult Index()
+        public ActionResult Sent()
         {
-            var messages = db.Messages.Select(m => m.SenderId).ToList();
-            //var messages = db.Messages.Where(m => m.SenderId.Equals(User.Identity.GetUserId())).ToList();
-            //Debug.WriteLine(messages.ToString());
-            return View(messages);
-        }
+            var viewList = new List<SentMessageViewModel>();
+            var list = new List<string>();
+            string id = User.Identity.GetUserId();
+            var messages = Db.Messages.Where(m => m.SenderId.Equals(id)).ToList();
 
-        // GET: Message/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Message message = db.Messages.Find(id);
-            if (message == null)
-            {
-                return HttpNotFound();
-            }
-            return View(message);
-        }
 
-        // GET: Message/Create
-        public ActionResult Create()
+            foreach(Message m in messages)
+            {
+
+                SentMessageViewModel viewModel = new SentMessageViewModel();
+                viewModel.Subject = m.Subject;
+                viewModel.Receivers = new List<string>();
+
+                //System.Diagnostics.Debug.WriteLine(viewModel.Subject);
+                list = m.ApplicationUserMessages.Where(u => u.Message_Id == m.Id).Select(u => u.User_Id).ToList();
+                foreach (string s in list)
+                {
+                    viewModel.Receivers.Add(Db.Users.First(u => u.Id.Equals(s)).Email.ToString()+";");
+                   //System.Diagnostics.Debug.WriteLine(s);   
+                }
+                
+                viewList.Add(viewModel);
+               
+            }
+            return View(viewList);
+        }
+        //GET
+        public ActionResult Send()
         {
-            ViewBag.SenderId = new SelectList(db.Users, "Id", "Email");
             return View();
         }
-
-        // POST: Message/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Mesesage
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Subject,SendTime,Body,SenderId")] Message message)
+        public ActionResult Send(SendMessageViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Messages.Add(message);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+               
+                Message m = new Message();
+                
+                m.Subject = viewModel.Subject;
+                m.Body = viewModel.Body;
+                m.SenderId = User.Identity.GetUserId();
+                Db.Messages.Add(m);
+                Db.SaveChanges();
+                string[] Receivers;
+                Receivers = viewModel.UserReceivers.Split(',');
+                foreach (string r in Receivers)
+                {
+                    ApplicationUserMessage user_message = new ApplicationUserMessage();
+                    user_message.Message_Id = m.Id;
+                    user_message.User_Id = (Db.Users.First(u => u.Email.Equals(r)).Id.ToString());
+                    Db.ApplicationUserMessages.Add(user_message);
+                    Db.SaveChanges();
+                }
+                return RedirectToAction("Sent");
             }
-
-            ViewBag.SenderId = new SelectList(db.Users, "Id", "Email", message.SenderId);
-            return View(message);
+            return View();
         }
-
-        // GET: Message/Edit/5
-        public ActionResult Edit(int? id)
+        // GET
+        public ActionResult Inbox(InboxMessageViewModel viewModel)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Message message = db.Messages.Find(id);
-            if (message == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.SenderId = new SelectList(db.Users, "Id", "Email", message.SenderId);
-            return View(message);
+
+            return View();
         }
-
-        // POST: Message/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Subject,SendTime,Body,SenderId")] Message message)
+        //GET 
+        public ActionResult Details(MessageViewModel viewModel)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(message).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.SenderId = new SelectList(db.Users, "Id", "Email", message.SenderId);
-            return View(message);
-        }
-
-        // GET: Message/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Message message = db.Messages.Find(id);
-            if (message == null)
-            {
-                return HttpNotFound();
-            }
-            return View(message);
-        }
-
-        // POST: Message/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Message message = db.Messages.Find(id);
-            db.Messages.Remove(message);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            return View();
         }
     }
 }
