@@ -24,9 +24,9 @@
                 @if (Request.IsAuthenticated)
                 {
                     <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Send message", "Index", "Home")</li>      
+                        <li>@Html.ActionLink("Send message", "Send", "Message")</li>      
                         <li>@Html.ActionLink("Inbox", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Sent", "Sent", "Message")</li>
+                        <li>@Html.ActionLink("Sent","Sent", "Message")</li>
                         <li>@Html.ActionLink("Groups", "Index", "Home")</li>
                         <li>@Html.ActionLink("Create group", "Index", "Home")</li>
                         <li>@Html.ActionLink("Your groups", "Index", "Home")</li>

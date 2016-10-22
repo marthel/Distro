@@ -1,4 +1,4 @@
-namespace Lab2.DAL.Migrations.IdentityMigrations
+namespace Lab2.DAL.Migration.IdentityMigrations
 {
     using System;
     using System.Data.Entity.Migrations;

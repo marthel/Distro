@@ -33,6 +33,15 @@ namespace Lab2.Models.ViewModels
     //List of messages in inbox
     public class InboxMessageViewModel
     {
+        public InboxMessageViewModel()
+        {
+
+        }
+        public InboxMessageViewModel(string text,string sender)
+        {
+            Text = text;
+            Sender = sender;
+        }
         public string Text { get; set; }
         public string Sender { get; set; }
 
