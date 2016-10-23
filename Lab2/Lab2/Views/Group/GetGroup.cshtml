@@ -23,7 +23,7 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("participate", "participate","GroupController", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("participate", "Participate", new { id = item.GroupId }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>

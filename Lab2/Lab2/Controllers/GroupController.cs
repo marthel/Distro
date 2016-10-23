@@ -86,18 +86,34 @@ namespace Lab2.Controllers
             return View(groups);
         }
 
-        public ActionResult Participate()
+        public ActionResult Participate(int? id)
         {
             List<GroupViewModel> groups = new List<GroupViewModel>();
+            Group g = Db.Groups.Find(id);
 
-            var all_groups = Db.Groups.ToList();
+            string userID = User.Identity.GetUserId();
+            ApplicationUser currentUser = Db.Users.First(x => x.Id == userID);
+            g.Users.Add(currentUser);
 
-            foreach (Group g in all_groups)
-            {
-                groups.Add(new GroupViewModel(g.Name, g.Id));
-            }
+            Db.SaveChanges();
 
-            return View(groups);
+            return RedirectToAction("GetGroupOfMine");
         }
+
+        public ActionResult Leave(int? id)
+        {
+            List<GroupViewModel> groups = new List<GroupViewModel>();
+            Group g = Db.Groups.Find(id);
+
+            string userID = User.Identity.GetUserId();
+            ApplicationUser currentUser = Db.Users.First(x => x.Id == userID);
+            g.Users.Remove(currentUser);
+                //Add(currentUser);
+
+            Db.SaveChanges();
+
+            return RedirectToAction("GetGroupOfMine");
+        }
+
     }
 }
