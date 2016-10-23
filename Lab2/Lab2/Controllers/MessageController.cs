@@ -96,7 +96,17 @@ namespace Lab2.Controllers
                 listOfMsg.Add(Db.Messages.Find(um.Message_Id));
                 viewModel.Add(new InboxMessageViewModel(listOfMsg.Last().Id,listOfMsg.Last().Subject, listOfMsg.Last().Sender.Email, listOfMsg.Last().SendTime,um.Read));
             }
-
+            string usrId = User.Identity.GetUserId();
+            var grps = Db.Groups.Where(g => g.Users.Any(u=>u.Id.Equals(usrId))).ToList();
+            List<Message> msgs = new List<Message>();
+            foreach (Group grp in grps)
+            {
+                msgs = Db.Messages.Where(m => m.GroupReceivers.Any(g=>g.Name.Equals(grp.Name))).ToList();
+                foreach (Message msg in msgs)
+                {
+                    viewModel.Add(new InboxMessageViewModel(msg.Id, msg.Subject, msg.Sender.Email, msg.SendTime, false));
+                }
+            }
             return View(viewModel);
         }
         //GET message/details/1
