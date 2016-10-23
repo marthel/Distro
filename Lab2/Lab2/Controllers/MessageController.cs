@@ -114,7 +114,6 @@ namespace Lab2.Controllers
         {
             string userId = User.Identity.GetUserId();
             Message message = Db.Messages.Find(id);
-            Debug.WriteLine(message.ApplicationUserMessages.Where(u => u.User_Id.Equals(userId)).Any());
             if (!(message.SenderId.Equals(userId)) && !(message.ApplicationUserMessages.Where(u => u.User_Id.Equals(userId)).Any()))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

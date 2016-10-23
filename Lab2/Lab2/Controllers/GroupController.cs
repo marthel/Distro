@@ -27,18 +27,11 @@ namespace Lab2.Controllers
         {
             Group group = new Group();
             group.Users = new List<ApplicationUser>();
-            string id = User.Identity.GetUserId();
-            //UserManagerExtensions userman = new UserManager();
-            //  ApplicationUser user = (ApplicationUser)await IdentityUser.Store.Users.FindAsync(id, CancellationToken.None);
-            // ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
-            ApplicationUser currentUser = Db.Users.First(x => x.Id == id);
+            ApplicationUser currentUser = Db.Users.Find(User.Identity.GetUserId());
             group.Name = gvm.Name;
             Db.Groups.Add(group);
             group.Users.Add(currentUser);
-            
-
             Db.SaveChanges();
-
             return View();
         }
 
@@ -46,20 +39,11 @@ namespace Lab2.Controllers
         public ActionResult GetGroup()
         {
             List<GroupViewModel> groups = new List<GroupViewModel>();
-           // Group group = new Group();
-
-            var all_groups = Db.Groups.ToList();
-            string id = User.Identity.GetUserId();
-            ApplicationUser currentUser = Db.Users.First(x => x.Id == id);
-            //var tmp = group.Users.Where(u => u.Id.Equals(id));
-
-            foreach (Group g in all_groups)
+            string usrId = User.Identity.GetUserId();
+            var grps = Db.Groups.Where(g => !g.Users.Any(u => u.Id.Equals(usrId))).ToList();
+            foreach (Group g in grps)
             {
-                // ApplicationUser currentUser = Db.Users.First(x => x.Id.Equals(id));
-                
-              //  ApplicationUser c = g.Users.Where(a => a.Id.Equals(id));
-                    if (!g.Users.Contains(currentUser))
-                        groups.Add(new GroupViewModel(g.Name,g.Id));
+                groups.Add(new GroupViewModel(g.Name, g.Id));
             }
 
             return View(groups);
@@ -68,19 +52,11 @@ namespace Lab2.Controllers
         public ActionResult GetGroupOfMine()
         {
             List<GroupViewModel> groups = new List<GroupViewModel>();
-            // Group group = new Group();
-
-            var all_groups = Db.Groups.ToList();
-            string id = User.Identity.GetUserId();
-            ApplicationUser currentUser = Db.Users.First(x => x.Id == id);
-            //var tmp = group.Users.Where(u => u.Id.Equals(id));
-
-            foreach (Group g in all_groups)
+            string usrId = User.Identity.GetUserId();
+            var grps = Db.Groups.Where(g => g.Users.Any(u => u.Id.Equals(usrId))).ToList();
+            foreach (Group g in grps)
             {
-                // ApplicationUser currentUser = Db.Users.First(x => x.Id.Equals(id));
-                //  ApplicationUser c = g.Users.Where(a => a.Id.Equals(id));
-                if (g.Users.Contains(currentUser))
-                    groups.Add(new GroupViewModel(g.Name, g.Id));
+                groups.Add(new GroupViewModel(g.Name, g.Id));
             }
 
             return View(groups);
@@ -90,9 +66,7 @@ namespace Lab2.Controllers
         {
             List<GroupViewModel> groups = new List<GroupViewModel>();
             Group g = Db.Groups.Find(id);
-
-            string userID = User.Identity.GetUserId();
-            ApplicationUser currentUser = Db.Users.First(x => x.Id == userID);
+            ApplicationUser currentUser = Db.Users.Find(User.Identity.GetUserId());
             g.Users.Add(currentUser);
 
             Db.SaveChanges();
@@ -104,11 +78,8 @@ namespace Lab2.Controllers
         {
             List<GroupViewModel> groups = new List<GroupViewModel>();
             Group g = Db.Groups.Find(id);
-
-            string userID = User.Identity.GetUserId();
-            ApplicationUser currentUser = Db.Users.First(x => x.Id == userID);
+            ApplicationUser currentUser = Db.Users.Find(User.Identity.GetUserId());
             g.Users.Remove(currentUser);
-                //Add(currentUser);
 
             Db.SaveChanges();
 
