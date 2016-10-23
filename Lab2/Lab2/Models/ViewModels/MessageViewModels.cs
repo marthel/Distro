@@ -10,6 +10,16 @@ namespace Lab2.Models.ViewModels
     //details about a single message
     public class MessageViewModel
     {
+        public MessageViewModel()
+        {
+            
+        }
+        public MessageViewModel(string subject,string sender,string body)
+        {
+            Subject = subject;
+            Sender = sender;
+            Body = body;
+        }
         public string Subject { get; set; }
         public string Sender { get; set; }
         public string Body { get; set; }
@@ -37,14 +47,15 @@ namespace Lab2.Models.ViewModels
         {
 
         }
-        public InboxMessageViewModel(string text,string sender)
+        public InboxMessageViewModel(string text,string sender,string subject)
         {
             Text = text;
             Sender = sender;
+            Subject = subject;
         }
         public string Text { get; set; }
         public string Sender { get; set; }
-
+        public string Subject { get; set; }
     }
     //list of messages in sent
     public class SentMessageViewModel

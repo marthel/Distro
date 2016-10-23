@@ -81,7 +81,7 @@ namespace Lab2.Controllers
             }
             return View();
         }
-        // GET
+        // GET USER-INBOX
         public ActionResult Inbox()
         {
             ApplicationUserMessage user_message = new ApplicationUserMessage();
@@ -97,61 +97,24 @@ namespace Lab2.Controllers
                // Debug.WriteLine("OLLON: " + um.Message_Id + "   " + um.User_Id);
                 listOfMsg.Add( Db.Messages.Where(a => a.Id.Equals(um.Message_Id)).First());
                 Debug.WriteLine("PONANI" + listOfMsg.Last().Body);
-                viewModel.Add(new InboxMessageViewModel(listOfMsg.Last().Body, listOfMsg.Last().Sender.Email));
+                viewModel.Add(new InboxMessageViewModel(listOfMsg.Last().Body, listOfMsg.Last().Sender.Email, listOfMsg.Last().Subject));
             }
-
-
-
-            //ListA.Where(a => ListX.Any(x => x.b == a.b))
-            // var 
-
-            // var listOfMsg = Db.Messages.Where(a => userMessage.All(x => x.Message_Id == a.Id)).ToList();
-
-            // var listOfMsg = Db.Messages.Where(a => a.Id == messages.).ToList();
-
-            /*foreach (Message m in listOfMsg)
-            {
-                Debug.WriteLine("KUKENNENENENE     " + m.Subject + " " + m.Body + " ");
-                Debug.WriteLine("KUKENNENENENE     " + m.Subject + " " + m.Body + " ");
-                Debug.WriteLine("KUKENNENENENE     " + m.Subject + " " + m.Body + " ");
-                Debug.WriteLine("KUKENNENENENE     " + m.Subject + " " + m.Body + " ");
-                Debug.WriteLine("KUKENNENENENE     " + m.Subject + " " + m.Body + " ");
-                Debug.WriteLine("KUKENNENENENE     " + m.Subject + " " + m.Body + " ");
-
-                viewModel.Add(new InboxMessageViewModel(m.Body, m.Sender.Email));
-            }*/
-
-
-
-            /* foreach (ApplicationUserMessage m in messages)
-             {
-
-                 Debug.WriteLine("KUKENNENENENE     " + m.User_Id + " " + m.Message_Id + " ");
-                 int ids = 0;
-                 Int32.TryParse(m.User_Id, out ids);
-                 // Message msg = new Message();
-                 var msg = Db.Messages.Where(u => u.Id == ids).ToList();
-                // var msg = Db.Messages.FirstOrDefault(u => u.Id.Equals(ids));
-
-                 foreach(Message ms in msg)
-                 {
-                     Debug.WriteLine("KUKENNENENENE     " + ms.Subject.ToString() + " " + ms.Body.ToString() + " ");
-                     viewModel.Add(new InboxMessageViewModel(ms.Body, ms.Sender.UserName));
-                 }
-                 ///msg = Db.Messages.Find(ids);
-
-
-
-             }*/
-
-
 
             return View(viewModel);
         }
         //GET 
         public ActionResult Details(MessageViewModel viewModel)
         {
-            return View();
+
+            Debug.WriteLine("BÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖHHHHHHHHH");
+            Debug.WriteLine("BÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖHHHHHHHHH");
+
+            Debug.WriteLine("BÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖHHHHHHHHH");
+            Debug.WriteLine("BÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖHHHHHHHHH");
+
+
+            // MessageViewModel mvm = new MessageViewModel(viewModel.Subject, viewModel.Sender, viewModel.Body);
+            return View(viewModel);
         }
     }
 }

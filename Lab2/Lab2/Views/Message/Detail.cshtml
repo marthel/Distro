@@ -1,15 +1,15 @@
-﻿@model IEnumerable<Lab2.Models.ViewModels.InboxMessageViewModel>
+﻿@model IEnumerable<Lab2.Models.ViewModels.MessageViewModel>
 
 @{
-    ViewBag.Title = "Inbox";
+    ViewBag.Title = "Details";
 }
 
-<h2>Inbox</h2>
+<h2>Details</h2>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Text)
-        </th
+            @Html.DisplayNameFor(model => model.Sender)
+        </th>
         <th></th>
     </tr>
 
@@ -17,13 +17,13 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Subject)
+                @Html.DisplayFor(modelItem => item.Subject) <br/>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Text)
+                @Html.DisplayFor(modelItem => item.Body)<br />
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Sender)
+                @Html.DisplayFor(modelItem => item.Sender)<br />
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
