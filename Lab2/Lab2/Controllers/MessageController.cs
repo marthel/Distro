@@ -114,11 +114,13 @@ namespace Lab2.Controllers
         {
             string userId = User.Identity.GetUserId();
             Message message = Db.Messages.Find(id);
-            if (!(message.SenderId.Equals(userId)) && !(message.ApplicationUserMessages.Where(u => u.User_Id.Equals(userId)).Any()))
+            var grps = Db.Groups.Where(g => g.Users.Any(u => u.Id.Equals(userId))).ToList();
+            
+            if (!(message.SenderId.Equals(userId)) && !(message.ApplicationUserMessages.Where(u => u.User_Id.Equals(userId)).Any()) && !(grps.Any(g => g.Messages.Any(m => m.Id.Equals(id)))))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            if((message.ApplicationUserMessages.Where(u => u.User_Id.Equals(userId)).Any()))
+            if ((message.ApplicationUserMessages.Where(u => u.User_Id.Equals(userId)).Any()))
             {
                 message.ApplicationUserMessages.Where(u => u.Message_Id.Equals(id)).First().User.Email.ToString();
                 var um = Db.ApplicationUserMessages.Find(userId, message.Id);
@@ -126,11 +128,10 @@ namespace Lab2.Controllers
                 Db.Entry(um).State = EntityState.Modified;
                 Db.SaveChanges();
             }
-            MessageViewModel viewModel= new MessageViewModel(
-                 message.Subject,
-                 message.ApplicationUserMessages.Where(u => u.Message_Id.Equals(id)).First().User.Email.ToString(),
-                message.Body);
-
+            MessageViewModel viewModel = new MessageViewModel(
+               message.Subject,
+               message.Sender.Email,
+              message.Body);
             return View(viewModel);
         }
     }
