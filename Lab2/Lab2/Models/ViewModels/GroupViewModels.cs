@@ -10,8 +10,13 @@ namespace Lab2.Models.ViewModels
     //list of groups 
     public class GroupViewModel
     {
+        public GroupViewModel(string name, int id)
+        {
+            Name = name;
+            GroupId = id; 
+        }
         public string Name { get; set; }
-        public Guid GroupId { get; set; }
+        public int GroupId { get; set; }
     }
     //user with the id joins group with id
     public class JoinGroupViewModel
