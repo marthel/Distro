@@ -10,7 +10,12 @@
         <th>
             @Html.DisplayNameFor(model => model.Subject)
         </th>
-        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Receivers)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SendTime)
+        </th>
     </tr>
 
 @foreach (var item in Model) {
