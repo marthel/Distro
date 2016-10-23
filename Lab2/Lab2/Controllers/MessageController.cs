@@ -10,7 +10,8 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace Lab2.Controllers
-{
+{   
+    [Authorize]
     public class MessageController : Controller
     {
 
@@ -115,6 +116,15 @@ namespace Lab2.Controllers
 
             // MessageViewModel mvm = new MessageViewModel(viewModel.Subject, viewModel.Sender, viewModel.Body);
             return View(viewModel);
+        }
+
+        public ActionResult Details()
+        {
+
+            Debug.WriteLine("BÖÖÖÖÖÖkukkkkkkkkÖÖÖÖÖÖÖÖÖÖHHHHHHHHH");
+
+            // MessageViewModel mvm = new MessageViewModel(viewModel.Subject, viewModel.Sender, viewModel.Body);
+            return View();
         }
     }
 }
