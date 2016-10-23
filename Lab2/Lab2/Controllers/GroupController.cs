@@ -16,7 +16,7 @@ namespace Lab2.Controllers
         private IdentityContext Db = new IdentityContext();
 
 
-        // Get: Group
+        // Get: Group Start view
         public ActionResult Create()
         {
             return View();
