@@ -4,6 +4,7 @@ using Lab2.Models.ViewModels;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -75,7 +76,7 @@ namespace Lab2.Controllers
             foreach(ApplicationUserMessage um in userMessage)
             {
                 listOfMsg.Add(Db.Messages.Find(um.Message_Id));
-                viewModel.Add(new InboxMessageViewModel(listOfMsg.Last().Id,listOfMsg.Last().Subject, listOfMsg.Last().Sender.Email, listOfMsg.Last().SendTime));
+                viewModel.Add(new InboxMessageViewModel(listOfMsg.Last().Id,listOfMsg.Last().Subject, listOfMsg.Last().Sender.Email, listOfMsg.Last().SendTime,um.Read));
             }
 
             return View(viewModel);
@@ -90,7 +91,14 @@ namespace Lab2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            message.ApplicationUserMessages.Where(u => u.Message_Id.Equals(id)).First().User.Email.ToString();
+            if((message.ApplicationUserMessages.Where(u => u.User_Id.Equals(userId)).Any()))
+            {
+                message.ApplicationUserMessages.Where(u => u.Message_Id.Equals(id)).First().User.Email.ToString();
+                var um = Db.ApplicationUserMessages.Find(userId, message.Id);
+                um.Read = true;
+                Db.Entry(um).State = EntityState.Modified;
+                Db.SaveChanges();
+            }
             MessageViewModel viewModel= new MessageViewModel(
                  message.Subject,
                  message.ApplicationUserMessages.Where(u => u.Message_Id.Equals(id)).First().User.Email.ToString(),
