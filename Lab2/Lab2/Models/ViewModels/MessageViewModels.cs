@@ -47,21 +47,36 @@ namespace Lab2.Models.ViewModels
         {
 
         }
-        public InboxMessageViewModel(string text,string sender,string subject)
+        public InboxMessageViewModel(int id, string subject, string sender, DateTime sendTime)
         {
-            Text = text;
+            Id = id;
             Sender = sender;
             Subject = subject;
+            SendTime = sendTime;
         }
-        public string Text { get; set; }
+        public int Id { get; set; }
         public string Sender { get; set; }
         public string Subject { get; set; }
+        public DateTime SendTime { get; set; }
     }
     //list of messages in sent
     public class SentMessageViewModel
     {
+        public SentMessageViewModel()
+        {
+
+        }
+        public SentMessageViewModel(int id, string subject, List<string> receivers, DateTime sendTime)
+        {
+            Id = id;
+            Subject = subject;
+            Receivers = receivers;
+            SendTime = sendTime;
+        }
+        public int Id { get; set; }
         public string Subject { get; set; }
         public List<string> Receivers { get; set; }
+        public DateTime SendTime { get; set; }
 
     }
 

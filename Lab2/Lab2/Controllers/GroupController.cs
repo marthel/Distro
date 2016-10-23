@@ -27,7 +27,6 @@ namespace Lab2.Controllers
         {
             Group group = new Group();
             group.Users = new List<ApplicationUser>();
-
             string id = User.Identity.GetUserId();
             //UserManagerExtensions userman = new UserManager();
             //  ApplicationUser user = (ApplicationUser)await IdentityUser.Store.Users.FindAsync(id, CancellationToken.None);

@@ -6,75 +6,56 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
 namespace Lab2.Controllers
-{   
+{
     [Authorize]
     public class MessageController : Controller
     {
 
         private IdentityContext Db = new IdentityContext();
-        // GET: Message
+        //GET: Message/sent
         public ActionResult Sent()
         {
-            var viewList = new List<SentMessageViewModel>();
-            var list = new List<string>();
             string id = User.Identity.GetUserId();
             var messages = Db.Messages.Where(m => m.SenderId.Equals(id)).ToList();
 
-
-            foreach(Message m in messages)
+            List<SentMessageViewModel> viewModel = new List<SentMessageViewModel>();
+            List<Message> listOfMsg = new List<Message>();
+            List<string> listOfUmr = new List<string>();
+            foreach (Message m in messages)
             {
-
-                SentMessageViewModel viewModel = new SentMessageViewModel();
-                viewModel.Subject = m.Subject;
-                viewModel.Receivers = new List<string>();
-
-                //System.Diagnostics.Debug.WriteLine(viewModel.Subject);
-                list = m.ApplicationUserMessages.Where(u => u.Message_Id == m.Id).Select(u => u.User_Id).ToList();
-                foreach (string s in list)
+                listOfUmr = new List<string>(m.ApplicationUserMessages.Where(u => u.Message_Id.Equals(m.Id)).Select(u => u.User_Id).ToList());
+                List<string> listOfReceivers = new List<string>();
+                foreach (string s in listOfUmr)
                 {
-                    viewModel.Receivers.Add(Db.Users.First(u => u.Id.Equals(s)).Email.ToString()+";");
-                   //System.Diagnostics.Debug.WriteLine(s);   
+                    listOfReceivers.Add(Db.Users.First(u => u.Id.Equals(s)).Email.ToString() + ";");
                 }
-                
-                viewList.Add(viewModel);
-               
+                viewModel.Add(new SentMessageViewModel(m.Id, m.Subject, listOfReceivers,m.SendTime));
             }
-            return View(viewList);
+            return View(viewModel);
         }
-        //GET
+        //GET: Message/send
         public ActionResult Send()
         {
             return View();
         }
-        // POST: Mesesage
+        //POST: Mesesage/send
         [HttpPost]
         public ActionResult Send(SendMessageViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-               
-                Message m = new Message();
-                m.SenderId = User.Identity.GetUserId();
-                Debug.WriteLine(m.SenderId);
-
-                m.Subject = viewModel.Subject;
-                Debug.WriteLine(m.Subject);
-                m.Body = viewModel.Body;
-                Debug.WriteLine(m.Body);
-
+                Message m = new Message(User.Identity.GetUserId(), viewModel.Subject, viewModel.Body);
                 Db.Messages.Add(m);
                 Db.SaveChanges();
-                string[] Receivers;
-                Receivers = viewModel.UserReceivers.Split(',');
+                string[] Receivers = viewModel.UserReceivers.Split(',');
                 foreach (string r in Receivers)
                 {
-                    ApplicationUserMessage user_message = new ApplicationUserMessage();
-                    user_message.Message_Id = m.Id;
-                    user_message.User_Id = (Db.Users.First(u => u.Email.Equals(r)).Id.ToString());
+                    ApplicationUserMessage user_message = new ApplicationUserMessage(m.Id, (Db.Users.First(u => u.Email.Equals(r)).Id.ToString()));
                     Db.ApplicationUserMessages.Add(user_message);
                     Db.SaveChanges();
                 }
@@ -82,49 +63,40 @@ namespace Lab2.Controllers
             }
             return View();
         }
-        // GET USER-INBOX
+        // GET: Message/Inbox
         public ActionResult Inbox()
         {
             ApplicationUserMessage user_message = new ApplicationUserMessage();
-            var list = new List<string>();
             string id = User.Identity.GetUserId();
-            //user_message.User_Id.Where(m=> m == id)
             var userMessage = Db.ApplicationUserMessages.Where(m => m.User_Id.Equals(id)).ToList();
             List<InboxMessageViewModel> viewModel = new List<InboxMessageViewModel>();
             List<Message> listOfMsg = new List<Message>();
 
             foreach(ApplicationUserMessage um in userMessage)
             {
-               // Debug.WriteLine("OLLON: " + um.Message_Id + "   " + um.User_Id);
-                listOfMsg.Add( Db.Messages.Where(a => a.Id.Equals(um.Message_Id)).First());
-                Debug.WriteLine("PONANI" + listOfMsg.Last().Body);
-                viewModel.Add(new InboxMessageViewModel(listOfMsg.Last().Body, listOfMsg.Last().Sender.Email, listOfMsg.Last().Subject));
+                listOfMsg.Add(Db.Messages.Find(um.Message_Id));
+                viewModel.Add(new InboxMessageViewModel(listOfMsg.Last().Id,listOfMsg.Last().Subject, listOfMsg.Last().Sender.Email, listOfMsg.Last().SendTime));
             }
 
             return View(viewModel);
         }
-        //GET 
-        public ActionResult Details(MessageViewModel viewModel)
+        //GET message/details/1
+        public ActionResult Details(int? id)
         {
+            string userId = User.Identity.GetUserId();
+            Message message = Db.Messages.Find(id);
+            Debug.WriteLine(message.ApplicationUserMessages.Where(u => u.User_Id.Equals(userId)).Any());
+            if (!(message.SenderId.Equals(userId)) && !(message.ApplicationUserMessages.Where(u => u.User_Id.Equals(userId)).Any()))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            message.ApplicationUserMessages.Where(u => u.Message_Id.Equals(id)).First().User.Email.ToString();
+            MessageViewModel viewModel= new MessageViewModel(
+                 message.Subject,
+                 message.ApplicationUserMessages.Where(u => u.Message_Id.Equals(id)).First().User.Email.ToString(),
+                message.Body);
 
-            Debug.WriteLine("BÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖHHHHHHHHH");
-            Debug.WriteLine("BÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖHHHHHHHHH");
-
-            Debug.WriteLine("BÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖHHHHHHHHH");
-            Debug.WriteLine("BÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖHHHHHHHHH");
-
-
-            // MessageViewModel mvm = new MessageViewModel(viewModel.Subject, viewModel.Sender, viewModel.Body);
             return View(viewModel);
-        }
-
-        public ActionResult Details()
-        {
-
-            Debug.WriteLine("BÖÖÖÖÖÖkukkkkkkkkÖÖÖÖÖÖÖÖÖÖHHHHHHHHH");
-
-            // MessageViewModel mvm = new MessageViewModel(viewModel.Subject, viewModel.Sender, viewModel.Body);
-            return View();
         }
     }
 }

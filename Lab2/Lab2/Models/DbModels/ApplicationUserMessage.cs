@@ -9,12 +9,22 @@ namespace Lab2.Models.DbModels
 {
     public class ApplicationUserMessage
     {
+        public ApplicationUserMessage(int mid, string uid)
+        {
+            this.Message_Id = mid;
+            this.User_Id = uid;
+        }
+
+        public ApplicationUserMessage()
+        {
+        }
+
         // Set the column order so it appears nice in the database
 
 
 
-        
-       // [Required]
+
+        // [Required]
         [Key, Column(Order = 0)]
         public string User_Id { get; set; }
 
