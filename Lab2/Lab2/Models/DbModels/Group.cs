@@ -9,6 +9,9 @@ namespace Lab2.Models.DbModels
 {
     public class Group
     {
+        public  Group ()
+        {
+        }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

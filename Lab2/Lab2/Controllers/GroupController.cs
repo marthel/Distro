@@ -23,7 +23,7 @@ namespace Lab2.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(GroupViewModel gvm)
+        public ActionResult Create(CreateGroupViewModel gvm)
         {
             Group group = new Group();
             group.Users = new List<ApplicationUser>();

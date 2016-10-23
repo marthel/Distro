@@ -13,7 +13,7 @@ namespace Lab2.DAL.Migration.IdentityMigrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201610212224536_InitialCreate"; }
+            get { return "201610231626182_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

@@ -11,13 +11,14 @@ namespace Lab2.Models.DbModels
     {
         public Message()
         {
-
+            GroupReceivers = new List<Group>();
         }
         public Message(string senderId, string subject, string body)
         {
             SenderId = senderId;
             Subject = subject;
             Body = body;
+            GroupReceivers = new List<Group>();
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -35,6 +35,10 @@ namespace Lab2.Controllers
                 {
                     listOfReceivers.Add(Db.Users.First(u => u.Id.Equals(s)).Email.ToString() + ";");
                 }
+                foreach (Group g in m.GroupReceivers)
+                {
+                    listOfReceivers.Add(g.Name.ToString() + ";");
+                }
                 viewModel.Add(new SentMessageViewModel(m.Id, m.Subject, listOfReceivers,m.SendTime));
             }
             return View(viewModel);
@@ -52,14 +56,28 @@ namespace Lab2.Controllers
             {
                 Message m = new Message(User.Identity.GetUserId(), viewModel.Subject, viewModel.Body);
                 Db.Messages.Add(m);
-                Db.SaveChanges();
-                string[] Receivers = viewModel.UserReceivers.Split(',');
-                foreach (string r in Receivers)
+                try
                 {
-                    ApplicationUserMessage user_message = new ApplicationUserMessage(m.Id, (Db.Users.First(u => u.Email.Equals(r)).Id.ToString()));
-                    Db.ApplicationUserMessages.Add(user_message);
-                    Db.SaveChanges();
+                    string[] gReceivers = viewModel.GroupReceivers.Split(',');
+                    foreach (string r in gReceivers)
+                    {
+                        Group grp = Db.Groups.Where(g => g.Name.Equals(r)).First();
+                        m.GroupReceivers.Add(grp);
+                    }
                 }
+                catch (Exception e){}                
+                Db.SaveChanges();
+                try
+                {
+                    string[] uReceivers = viewModel.UserReceivers.Split(',');
+                    foreach (string r in uReceivers)
+                    {
+                        ApplicationUserMessage user_message = new ApplicationUserMessage(m.Id, (Db.Users.First(u => u.Email.Equals(r)).Id.ToString()));
+                        Db.ApplicationUserMessages.Add(user_message);
+                        Db.SaveChanges();
+                    }
+                }catch (Exception e){}
+                
                 return RedirectToAction("Sent");
             }
             return View();

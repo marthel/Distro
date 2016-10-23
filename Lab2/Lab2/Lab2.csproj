@@ -203,9 +203,9 @@
     <Compile Include="DAL\Contexts\GroupContext.cs" />
     <Compile Include="DAL\Contexts\IdentityContext.cs" />
     <Compile Include="DAL\Contexts\MessageContext.cs" />
-    <Compile Include="DAL\Migration\IdentityMigrations\201610212224536_InitialCreate.cs" />
-    <Compile Include="DAL\Migration\IdentityMigrations\201610212224536_InitialCreate.Designer.cs">
-      <DependentUpon>201610212224536_InitialCreate.cs</DependentUpon>
+    <Compile Include="DAL\Migration\IdentityMigrations\201610231626182_InitialCreate.cs" />
+    <Compile Include="DAL\Migration\IdentityMigrations\201610231626182_InitialCreate.Designer.cs">
+      <DependentUpon>201610231626182_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="DAL\Migration\IdentityMigrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
@@ -290,7 +290,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="DAL\Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -301,8 +300,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DAL\Migration\IdentityMigrations\201610212224536_InitialCreate.resx">
-      <DependentUpon>201610212224536_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="DAL\Migration\IdentityMigrations\201610231626182_InitialCreate.resx">
+      <DependentUpon>201610231626182_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
