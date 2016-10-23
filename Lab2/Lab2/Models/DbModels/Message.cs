@@ -9,6 +9,16 @@ namespace Lab2.Models.DbModels
 {
     public class Message
     {
+        public Message()
+        {
+
+        }
+        public Message(string senderId, string subject, string body)
+        {
+            SenderId = senderId;
+            Subject = subject;
+            Body = body;
+        }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
