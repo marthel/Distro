@@ -63,10 +63,11 @@ namespace Lab2.Controllers
                     {
                         Group grp = Db.Groups.Where(g => g.Name.Equals(r)).First();
                         m.GroupReceivers.Add(grp);
+                        Db.SaveChanges();
                     }
                 }
                 catch (Exception e){}                
-                Db.SaveChanges();
+                
                 try
                 {
                     string[] uReceivers = viewModel.UserReceivers.Split(',');
